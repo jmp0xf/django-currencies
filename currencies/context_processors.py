@@ -9,7 +9,7 @@ def currencies(request):
             currency = Currency.objects.get(is_default__exact=True)
         except Currency.DoesNotExist:
             currency = None
-        request.session['currency'] = currency
+        request.session['currency'] = currency.code
 
     return {
         'CURRENCIES': currencies,
