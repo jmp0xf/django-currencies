@@ -27,7 +27,9 @@ class Command(BaseCommand):
 			if (not currencies) or currency in currencies:
 				if not Currency.objects.filter(code=currency):
 					print("Creating %r (%s)" % (d[currency], currency))
-					Currency(code=currency, name=d[currency], factor=1.0, is_active=False).save()
+					is_active = [False, True][currency in settings.CURRENCIES]
+					is_default = [False, True][currency == settings.DEFAULT_CURRENCY]
+					Currency(code=currency, name=d[currency], factor=1.0, is_active=is_active, is_default=is_default).save()
 					i+=1
 
 		if i == 1:

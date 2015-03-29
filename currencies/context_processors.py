@@ -1,5 +1,5 @@
 from currencies.models import Currency
-
+from .utils import get_symbol
 
 def currencies(request):
     currencies = Currency.objects.active()
@@ -13,5 +13,6 @@ def currencies(request):
 
     return {
         'CURRENCIES': currencies,
-        'CURRENCY': request.session['currency']
+        'CURRENCY': request.session['currency'],
+        'CURRENCY_SYMBOL': get_symbol(request.session['currency'])
     }
