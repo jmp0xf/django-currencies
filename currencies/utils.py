@@ -33,7 +33,7 @@ def convert_currency(amount, currency_from, currency_to):
         factor_to = Currency.objects.get(code__exact=currency_to).factor
         amount_to = amount * factor_to / factor_from
 
-    return amount_to.quantize(Decimal('1.00'), ROUND_UP)
+    return amount_to.quantize(Decimal('0.01'), ROUND_UP)
 
 
 def get_currency(currency_from, currency_to):
@@ -41,7 +41,7 @@ def get_currency(currency_from, currency_to):
         return 1
     factor_from = Currency.objects.get(code__exact=currency_from).factor
     factor_to = Currency.objects.get(code__exact=currency_to).factor
-    return Decimal(factor_to / factor_from).quantize(Decimal('1.00'), ROUND_UP)
+    return Decimal(factor_to / factor_from).quantize(Decimal('0.00001'), ROUND_UP)
 
 
 def get_symbol(currency):
