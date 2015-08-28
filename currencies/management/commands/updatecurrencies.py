@@ -34,8 +34,9 @@ class Command(NoArgsCommand):
 			except Currency.DoesNotExist:
 				print("Warning: Base currency %r does not exist! Rates will be erroneous without it." % (d["base"]))
 		i = 0
-
-		for currency in Currency.objects.all():
+		acive_currencies = getattr(settings, "CURRENCIES", None)
+		for currency_code in acive_currencies:
+			currency = Currency.objects.get(code=currency_code)
 			if currency.code not in d["rates"]:
 				print("Warning: Could not find rates for %s (%s)" % (currency, currency.code))
 				continue
