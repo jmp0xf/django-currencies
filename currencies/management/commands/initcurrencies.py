@@ -25,12 +25,16 @@ class Command(BaseCommand):
 
 		for currency in sorted(d.keys()):
 			if (not currencies) or currency in currencies:
-				if not Currency.objects.filter(code=currency):
+				currency_db = Currency.objects.filter(code=currency).first()
+				if not currency_db:
 					print("Creating %r (%s)" % (d[currency], currency))
 					is_active = [False, True][currency in settings.CURRENCIES]
 					is_default = [False, True][currency == settings.DEFAULT_CURRENCY]
 					Currency(code=currency, name=d[currency], factor=1.0, is_active=is_active, is_default=is_default).save()
 					i+=1
+				else:
+					currency_db.is_active = True
+					currency_db.save()
 
 		if i == 1:
 			print("%i new currency" % (i))
