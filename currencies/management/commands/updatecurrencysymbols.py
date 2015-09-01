@@ -15,12 +15,11 @@ class Command(NoArgsCommand):
 			mappings = json.load(df)
 		i = 0
 		for currency in Currency.objects.all():
-			if not currency.symbol:
-				symbol = mappings.get(currency.code)
-				if symbol:
-					currency.symbol = symbol
-					currency.save()
-					i+=1
+			symbol = mappings.get(currency.code)
+			if symbol:
+				currency.symbol = symbol
+				currency.save()
+				i+=1
 
 		if i == 1:
 			print("Updated %i symbol" % (i))
