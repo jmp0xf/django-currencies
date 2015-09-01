@@ -33,7 +33,9 @@ class Command(BaseCommand):
 					Currency(code=currency, name=d[currency], factor=1.0, is_active=is_active, is_default=is_default).save()
 					i+=1
 				else:
-					currency_db.is_active = True
+					print("Updating %r (%s)" % (d[currency], currency))
+					currency_db.is_active = [False, True][currency in settings.CURRENCIES]
+					currency_db.is_default = [False, True][currency == settings.DEFAULT_CURRENCY]
 					currency_db.save()
 
 		if i == 1:
