@@ -7,7 +7,7 @@ def currencies(request):
 
     if not request.session.get('currency'):
         try:
-            currency = Currency.objects.get(is_default__exact=True)
+            currency = Currency.objects.get(is_default=True)
         except Currency.DoesNotExist:
             currency = None
         if not currency:
