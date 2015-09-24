@@ -1,4 +1,5 @@
-from currencies.models import Currency
+from django.conf import settings
+from .models import Currency
 from .utils import get_symbol
 
 def currencies(request):
@@ -9,6 +10,10 @@ def currencies(request):
             currency = Currency.objects.get(is_default__exact=True)
         except Currency.DoesNotExist:
             currency = None
+        if not currency:
+            currency = Currency.objects.get(code=settings.DEFAULT_CURRENCY)
+            currency.is_default = True
+            currency.save()
         request.session['currency'] = currency.code
 
     return {
