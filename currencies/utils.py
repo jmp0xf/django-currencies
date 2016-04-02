@@ -26,6 +26,8 @@ def price_to_base(price, currency):
 
 
 def convert_currency(amount, currency_from, currency_to):
+    if amount is None:
+        return None
     if currency_from == currency_to:
         amount_to = Decimal(amount)
     else:
