@@ -34,8 +34,11 @@ def convert_currency(amount, currency_from, currency_to):
         factor_from = Currency.objects.get(code__exact=currency_from).factor
         factor_to = Currency.objects.get(code__exact=currency_to).factor
         amount_to = amount * factor_to / factor_from
-
-    return amount_to.quantize(Decimal('0.01'), ROUND_UP)
+    normalized = amount_to.quantize(Decimal('0.01'), ROUND_UP).normalize()
+    sign, digits, exponent = normalized.as_tuple()
+    if exponent > 0:
+        normalized = Decimal((sign, digits + (0,) * exponent, 0))
+    return normalized
 
 
 def get_currency(currency_from, currency_to):
